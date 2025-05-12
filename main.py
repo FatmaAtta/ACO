@@ -24,19 +24,26 @@ def update_pheromone(n_ants, visited_cities, cities,pheromones):
   return pheromones
 
 
-def calc_probability(current_city, cities, pheromones, visited_cities):
-  prob = np.zeros(cities.shape[0])
+def calc_probability(current_city, cities, pheromones, visited_cities, j):
+  prob = 0.0
   z=0
   for i in range(cities.shape[0]):
     if i not in visited_cities:
       if i != current_city:
         z += (pheromones[current_city][i])*(1/(cities[current_city][i]))
-  for i in range(cities.shape[0]):
+  if j not in visited_cities:
     if z != 0.0:
-      if i != current_city:
-        prob[i] = (pheromones[current_city][i])*(pow(1/(cities[current_city][i]),2)) / (z)
-      else:
-        prob[i] = 0.0
+      prob = (pheromones[current_city][j]) * (pow(1 / (cities[current_city][j]), 2)) / (z)
+    else:
+      prob = 0.0
+  else:
+    prob = 0.0
+  # for i in range(cities.shape[0]):
+  #   if z != 0.0:
+  #     if i != current_city:
+  #       prob[i] = (pheromones[current_city][i])*(pow(1/(cities[current_city][i]),2)) / (z)
+  #     else:
+  #       prob[i] = 0.0
   return prob
 
 def move(current_city, cities, pheromones, visited_cities):
@@ -44,12 +51,14 @@ def move(current_city, cities, pheromones, visited_cities):
   max_prob = 0
   next_city = -1
   for i in range(cities.shape[1]):
-    prob = calc_probability(current_city, cities, pheromones, visited_cities)
-    if prob[i] > max_prob:
-      max_prob = prob[i]
-      next_city = i
+    prob = calc_probability(current_city, cities, pheromones, visited_cities,i)
+    if prob >= max_prob:
+      max_prob = prob
+      if i not in visited_cities:
+        next_city = i
+      # next_city = i if i not in visited_cities
     #calc th ecost using the formula
-    path_cost = cities[current_city][i]
+      path_cost = cities[current_city][i]
     if min_cost == 0:
       min_cost = path_cost
     else:
