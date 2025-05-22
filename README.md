@@ -1,7 +1,5 @@
 # Ant Colony Optimization (ACO) for Traveling Salesman Problem (TSP)
 
----
-
 ## Overview
 
 This project implements the **Ant Colony Optimization (ACO)** metaheuristic algorithm to solve the classic **Traveling Salesman Problem (TSP)**. Given a set of cities and the distances between them, the algorithm finds a near-optimal shortest path that visits each city exactly once and returns to the starting point.
